@@ -681,7 +681,7 @@ class VisionLSTM2(nn.Module):
                 for i in range(depth)
             ],
         )
-        if pooling == "bilateral_flatten" and mode == "classifier":
+        if pooling == "bilateral_flatten":
             head_dim = dim * 2
         else:
             head_dim = dim
@@ -701,6 +701,8 @@ class VisionLSTM2(nn.Module):
                 self.output_shape = (self.patch_embed.num_patches, dim)
             elif self.pooling == "to_image":
                 self.output_shape = (dim, *self.patch_embed.seqlens)
+            elif self.pooling == "bilateral_flatten":
+                self.output_shape = (dim * 2,)
             else:
                 warnings.warn(f"passed invalid pooling -> pooling is ignored ({self.pooling})")
                 self.pooling = None
